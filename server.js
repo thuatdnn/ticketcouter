@@ -1,22 +1,23 @@
 const express = require('express');
 const server = express();
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-const userRoute = require('./routes/user')
-const httperror = require('http-errors');
+const authRouter = require('./routes/auth');
 
-mongoose.connect('mongodb://user:passw0rd@ds217671.mlab.com:17671/ticketcounter', )
+mongoose.connect('mongodb://user:passw0rd@ds121321.mlab.com:21321/bapticket', );
 mongoose.connection.on('error', error => console.log(error) );
 mongoose.Promise = global.Promise;
-server.use(bodyParser.json());
-server.use( bodyParser.urlencoded({ extended : true }) );
-server.use('/', userRoute);
-server.use(httperror);
+
+global.APP_KEY = 'abcdef';
+
+server.use(express.json());
+server.use(express.urlencoded({ extended: false }));
+
+server.use('/', authRouter);
 server.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.json({ error : err });
   });
-
-server.listen(3000, () => {
-    console.log('Server started')
+const http = require('http').createServer(server);
+http.listen(3005, function() {
+    console.log('server start with port 3005');
 });
