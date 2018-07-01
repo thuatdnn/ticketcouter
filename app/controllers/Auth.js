@@ -1,11 +1,11 @@
 const { validationResult } = require('express-validator/check');
 const Responses = require('../responses');
-const UserRepository = require('../repositories/Auth');
+const UserRepository = require('../repositories/User');
 const JWT = require('jsonwebtoken')
 class AuthCtrl extends Responses{
     constructor(){
         super();
-        this.userRepo = new UserRepository;  
+        this.userRepo = new UserRepository;
     };
 
     async register(req, res){

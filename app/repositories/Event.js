@@ -1,10 +1,10 @@
 const eventModel = require('../models/Event');
 
-class eventRepo{
+class EventRepository{
     constructor(){
 
     }
-    async create_event(body){
+    async createEvent(body){
         try {
             let newEvent = new eventModel(body);
             const result = await newEvent.save();
@@ -14,3 +14,5 @@ class eventRepo{
         }
     }
 }
+
+module.exports = EventRepository;

@@ -46,6 +46,29 @@ class Responses{
             validations
         })
     }
+
+    authen_required (res, options) {
+        let {status, data, validations} = options;
+        status = status || 'AUTHORIZATION_REQUIRED';
+        data = data || undefined;
+        validations = validations || undefined;
+        return res.status(200).json({
+            status,
+            data,
+            validations
+        })
+    }
+    permission_denied (res, options) {
+        let {status, data, validations} = options;
+        status = status || 'PERMISSION_DENIED';
+        data = data || undefined;
+        validations = validations || undefined;
+        return res.status(200).json({
+            status,
+            data,
+            validations
+        })
+    }
 }
 
 module.exports = Responses;

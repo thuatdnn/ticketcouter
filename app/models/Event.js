@@ -13,11 +13,11 @@ const EventSchema = new Schema({
     description:{
         type: String
     },
-    tikect_total:{
+    ticket_total:{
         type: Number,
         required: true
     },
-    tiket_price:{
+    ticket_price:{
         type: Number,
         required: true
     },
