@@ -69,6 +69,39 @@ class Responses{
             validations
         })
     }
+    event_not_exist (res, options) {
+        let {status, data, validations} = options;
+        status = status || 'EVENT_NOT_EXIST';
+        data = data || undefined;
+        validations = validations || undefined;
+        return res.status(200).json({
+            status,
+            data,
+            validations
+        })
+    }
+    not_time_buy (res, options) {
+        let {status, data, validations} = options;
+        status = status || 'EVENT_NOT_EXIST';
+        data = data || undefined;
+        validations = validations || undefined;
+        return res.status(200).json({
+            status,
+            data,
+            validations
+        })
+    }
+    sold_out (res, options) {
+        let {status, data, validations} = options;
+        status = status || 'EVENT_NOT_EXIST';
+        data = data || undefined;
+        validations = validations || undefined;
+        return res.status(200).json({
+            status,
+            data,
+            validations
+        })
+    }
 }
 
 module.exports = Responses;

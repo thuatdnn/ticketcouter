@@ -2,7 +2,9 @@ const express = require('express');
 const server = express();
 const mongoose = require('mongoose');
 const authRouter = require('./routes/auth');
-const eventRouter = require('./routes/event')
+const eventRouter = require('./routes/event');
+const eventsRouter = require('./routes/events');
+
 
 mongoose.connect('mongodb://user:passw0rd@ds121321.mlab.com:21321/bapticket', );
 mongoose.connection.on('error', error => console.log(error) );
@@ -14,6 +16,7 @@ server.use(express.json());
 server.use(express.urlencoded({ extended: false }));
 
 server.use('/', authRouter);
+server.use('/', eventsRouter);
 server.use('/event', eventRouter);
 
 server.use(function(err, req, res, next) {

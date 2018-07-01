@@ -17,6 +17,10 @@ const EventSchema = new Schema({
         type: Number,
         required: true
     },
+    sold:{
+        type: Number,
+        default: 0
+    },
     ticket_price:{
         type: Number,
         required: true
