@@ -27,7 +27,7 @@ class EventController extends Responses{
             }
         }else{
             let token = req.headers.authentication;
-            let decoded = await JWT.verify(token, APP_KEY);
+            var decoded = await JWT.verify(token, APP_KEY);
             if (!decoded.admin){
                 return this.permission_denied(res, options)
             }
@@ -42,7 +42,6 @@ class EventController extends Responses{
     }
 
     async getEventDetail(req, res){
-        let options = {};
         let event  = await this.eventRepo.getEventById(req.params.id)
         if (!event){
             this.event_not_exist(res, options)
@@ -54,14 +53,18 @@ class EventController extends Responses{
         }
     }
     async getEventList(req, res){
-      
-        let {limit, page} = req.query;
-        console.log(req.query);
-        let event  = await this.eventRepo.getEventList(limit, page)
-        let options = {
-            data: event
+        let limit = +req.query.limit;
+        let page = +req.query.page;
+        let options={}
+        if(limit < 0){
+            let event = await this.eventRepo.getEventList(0,0);
+            options = {data:event}
+            return this.success(res, options)
+        }else{
+            let event  = await this.eventRepo.getEventList(limit, page);
+            options = {data:event}
+            return this.success(res, options)
         }
-            this.success(res, options)
     }
 
     async updateEvent (req, res){
@@ -110,6 +113,7 @@ class EventController extends Responses{
         }else{
             let token = req.headers.authentication;
             let decoded = await JWT.verify(token, APP_KEY);
+            
             if (!decoded.admin){
                 return this.permission_denied(res, options)
             }

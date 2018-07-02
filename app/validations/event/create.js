@@ -6,8 +6,8 @@ module.exports =[
     body('banner').exists().withMessage('required'),
     body('ticket_total').isInt({gt:-1}).withMessage('positive_integer_required'),
     body('ticket_price').isNumeric({gt: -1}).withMessage('positive_number_required'),
-    body('start_date').isISO8601().withMessage('required'),
-    /*body('start_date').custom((value, {req}) => {
+    //body('start_date').isISO8601().withMessage('required'),
+    body('start_date').custom((value, {req}) => {
         let checkISO = validator.isISO8601(value);
         if (!checkISO){
             throw new Error('required')
@@ -19,9 +19,8 @@ module.exports =[
             }
         }
     }),
-    */
     body('end_date').isISO8601().withMessage('required'),
-    /*body('ticket_start_date').custom((value, {req}) => {
+    body('ticket_start_date').custom((value, {req}) => {
         let checkISO = validator.isISO8601(value);
         if (!checkISO){
             throw new Error('required')
@@ -32,7 +31,6 @@ module.exports =[
                 return true
         }
     }),
-    */
-   body('ticket_start_date').isISO8601().withMessage('required'),
+    //body('ticket_start_date').isISO8601().withMessage('required'),
     body('ticket_end_date').isISO8601().withMessage('required'),
 ]

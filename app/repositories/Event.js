@@ -48,6 +48,13 @@ class EventRepository{
             console.log(e);
         }
     }
+    async resetEvent(){
+        try{
+            await EventModel.remove({});
+        }catch(e){
+            console.log(e);
+        }
+    }
 }
 
 module.exports = EventRepository;

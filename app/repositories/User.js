@@ -4,10 +4,10 @@ const UserModel = require('../models/User');
 class UserRepository{
     constructor(){
     };
-    register (body) {
+    async register (body) {
         try {
             let newUser = new UserModel(body);
-            newUser.save()
+            await newUser.save()
         }catch (e) {
             console.log(e)
         }
@@ -17,6 +17,22 @@ class UserRepository{
         try{
              let user =   await UserModel.findOne({'username': username});
              return user
+        }catch(e){
+            console.log(e);
+        }
+    }
+
+    async getUserById(id) {
+        try{
+             let user =   await UserModel.findById(id);
+             return user
+        }catch(e){
+            console.log(e);
+        }
+    }
+    async resetUser(){
+        try{
+            await UserModel.remove({});
         }catch(e){
             console.log(e);
         }

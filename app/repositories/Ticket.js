@@ -4,12 +4,27 @@ class TicketRepository{
     constructor(){
 
     }
-    async createTicket(event_id, user_id, quantity){
+    async createTicket(ticketInfo){
         try{
-        let newTicket = new TicketModel(user_id, event_id, quantity);
+        let newTicket = new TicketModel(ticketInfo);
         const result = await newTicket.save();
             return result;
         }catch (e){
+            console.log(e);
+        }
+    }
+    async getTicket(query){
+        try{
+        const result = await TicketModel.find(query);
+        return result
+        }catch(e){
+            console.log(e);
+        }
+    }
+    async resetTicket(){
+        try{
+            await TicketModel.remove({});
+        }catch(e){
             console.log(e);
         }
     }

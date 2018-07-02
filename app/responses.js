@@ -82,7 +82,7 @@ class Responses{
     }
     not_time_buy (res, options) {
         let {status, data, validations} = options;
-        status = status || 'EVENT_NOT_EXIST';
+        status = status || 'NOT_TIME_BUY_TICKET';
         data = data || undefined;
         validations = validations || undefined;
         return res.status(200).json({
@@ -93,7 +93,7 @@ class Responses{
     }
     sold_out (res, options) {
         let {status, data, validations} = options;
-        status = status || 'EVENT_NOT_EXIST';
+        status = status || 'TICKET_SOLD_OUT';
         data = data || undefined;
         validations = validations || undefined;
         return res.status(200).json({
