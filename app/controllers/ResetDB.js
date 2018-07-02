@@ -26,8 +26,13 @@ module.exports = {
                 return response.validation_error(res, options);
             }
         }else{
-            let token = req.headers.authentication;
-            let decoded = await JWT.verify(token, APP_KEY);
+            let decoded={}
+            try{
+                let token = req.headers.authentication;
+                decoded = await JWT.verify(token, APP_KEY);
+            }catch(err){
+                return this.authen_required(res, options)
+            }
             let defaultAdmin = await userRepo.getUserById(decoded.id);
             if (!(defaultAdmin.username === "BE.admin")){
                 return response.permission_denied(res, options)

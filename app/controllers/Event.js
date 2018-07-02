@@ -26,8 +26,13 @@ class EventController extends Responses{
                 return this.validation_error(res, options);
             }
         }else{
-            let token = req.headers.authentication;
-            var decoded = await JWT.verify(token, APP_KEY);
+            let decoded = {};
+            try {
+                let token = req.headers.authentication;
+                decoded = await JWT.verify(token, APP_KEY);
+            }catch(error) {
+                return this.authen_required(res, options)
+            }
             if (!decoded.admin){
                 return this.permission_denied(res, options)
             }
@@ -84,8 +89,13 @@ class EventController extends Responses{
                 return this.validation_error(res, options);
             }
         }else{
-            let token = req.headers.authentication;
-            let decoded = await JWT.verify(token, APP_KEY);
+            let decoded={}
+            try{
+                let token = req.headers.authentication;
+                decoded = await JWT.verify(token, APP_KEY);
+            }catch(err){
+                return this.authen_required(res, options)
+            }
             if (!decoded.admin){
                 return this.permission_denied(res, options)
             }
@@ -111,9 +121,13 @@ class EventController extends Responses{
                 return this.authen_required(res, options)
             }
         }else{
-            let token = req.headers.authentication;
-            let decoded = await JWT.verify(token, APP_KEY);
-            
+            let decoded={}
+            try{
+                let token = req.headers.authentication;
+                decoded = await JWT.verify(token, APP_KEY);
+            }catch(err){
+                return this.authen_required(res, options)
+            }
             if (!decoded.admin){
                 return this.permission_denied(res, options)
             }

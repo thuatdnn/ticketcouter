@@ -40,8 +40,13 @@ class TicketController extends Responses{
             if (!(milliSecond(event.ticket_start_date) < now && milliSecond(event.ticket_end_date) > now)){
                 return this.not_time_buy(res, options);
             }else{
-                let token = req.headers.authentication;
-                let decoded = await JWT.verify(token, APP_KEY);
+                let decoded={}
+                try{
+                    let token = req.headers.authentication;
+                    decoded = await JWT.verify(token, APP_KEY);
+                }catch(err){
+                    return this.authen_required(res, options)
+                }
                 let newSold = event.sold + req.body.quantity;
                 if (newSold > event.ticket_total){
                     return this.sold_out(res, options)
@@ -79,15 +84,27 @@ class TicketController extends Responses{
                 return this.validation_error(res, options);
             }
         }else{
-            let event = await this.eventRepo.getEventById(req.params.event_id);
+            let event={}
+            try{
+                event = await this.eventRepo.getEventById(req.params.event_id);
+            }catch(err){
+                console.error(err);
+                
+                return this.event_not_exist(res, options);
+            }
             if (!event){
                 return this.event_not_exist(res, options);
             }else{
                 let options = {
                     data:[]
                 }
-                let token = req.headers.authentication;
-                let decoded = await JWT.verify(token, APP_KEY);
+                let decoded={}
+                try{
+                    let token = req.headers.authentication;
+                    decoded = await JWT.verify(token, APP_KEY);
+                }catch(err){
+                    return this.authen_required(res, options)
+                }
                 let query = {
                     "event_id": req.params.event_id,
                     "user_id": decoded.id
