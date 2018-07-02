@@ -3,6 +3,7 @@ const EventRepository = require('../repositories/Event');
 const { validationResult } = require('express-validator/check');
 const Responses = require('../responses');
 const JWT = require('jsonwebtoken');
+const mongoose = require('mongoose');
 
 class TicketController extends Responses{
     constructor(){
@@ -29,6 +30,11 @@ class TicketController extends Responses{
             }
         }else{
             let now = Date.now();
+            let isObjectId = mongoose.Types.ObjectId.isValid(req.params.event_id);
+            console.log(isObjectId)
+            if (!isObjectId){
+                return this.event_not_exist(res, options);
+            } 
             let event = await this.eventRepo.getEventById(req.params.event_id);
             if (!event){
                 return this.event_not_exist(res, options);
@@ -40,6 +46,7 @@ class TicketController extends Responses{
             if (!(milliSecond(event.ticket_start_date) < now && milliSecond(event.ticket_end_date) > now)){
                 return this.not_time_buy(res, options);
             }else{
+                
                 let decoded={}
                 try{
                     let token = req.headers.authentication;
@@ -84,14 +91,11 @@ class TicketController extends Responses{
                 return this.validation_error(res, options);
             }
         }else{
-            let event={}
-            try{
-                event = await this.eventRepo.getEventById(req.params.event_id);
-            }catch(err){
-                console.error(err);
-                
+            let isObjectId = mongoose.Types.ObjectId.isValid(req.params.event_id)
+            if (!isObjectId){
                 return this.event_not_exist(res, options);
             }
+            let event = await this.eventRepo.getEventById(req.params.event_id);
             if (!event){
                 return this.event_not_exist(res, options);
             }else{

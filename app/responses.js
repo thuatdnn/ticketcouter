@@ -71,7 +71,7 @@ class Responses{
     }
     event_not_exist (res, options) {
         let {status, data, validations} = options;
-        status = status || 'EVENT_NOT_EXIST';
+        status = status || 'EVENT_NOT_EXISTED';
         data = data || undefined;
         validations = validations || undefined;
         return res.status(200).json({

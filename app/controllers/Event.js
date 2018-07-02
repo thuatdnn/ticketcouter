@@ -2,7 +2,7 @@ const EventRepository = require('../repositories/Event');
 const { validationResult } = require('express-validator/check');
 const Responses = require('../responses');
 const JWT = require('jsonwebtoken');
-
+const mongoose = require('mongoose');
 class EventController extends Responses{
     constructor(){
         super();
@@ -47,14 +47,19 @@ class EventController extends Responses{
     }
 
     async getEventDetail(req, res){
-        let event  = await this.eventRepo.getEventById(req.params.id)
+        let options={}
+        let isObjectId = mongoose.Types.ObjectId.isValid(req.params.event_id);
+        if (!isObjectId){
+            return this.event_not_exist(res, options)
+        }
+        let event  = await this.eventRepo.getEventById(req.params.event_id)
         if (!event){
-            this.event_not_exist(res, options)
+            return this.event_not_exist(res, options)
         }else{
             let options = {
                 data: event
             }
-            this.success(res, options)
+            return this.success(res, options)
         }
     }
     async getEventList(req, res){
@@ -100,7 +105,11 @@ class EventController extends Responses{
                 return this.permission_denied(res, options)
             }
             else{
-                let event = await this.eventRepo.updateEvent(req.params.id,req.body)
+                let isObjectId = mongoose.Types.ObjectId.isValid(req.params.event_id)
+                if (!isObjectId){
+                    return this.event_not_exist(res, options)
+                }
+                let event = await this.eventRepo.updateEvent(req.params.event_id,req.body)
                 if (!event){
                     this.event_not_exist(res, options)
                 }else{
@@ -132,7 +141,11 @@ class EventController extends Responses{
                 return this.permission_denied(res, options)
             }
             else{
-                let event = await this.eventRepo.deleteEvent(req.params.id,req.body)
+                let isObjectId = mongoose.Types.ObjectId.isValid(req.params.event_id)
+                if (!isObjectId){
+                    return this.event_not_exist(res, options)
+                }
+                let event = await this.eventRepo.deleteEvent(req.params.event_id,req.body)
                 if (!event){
                     this.event_not_exist(res, options)
                 }else{
