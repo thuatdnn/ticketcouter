@@ -4,7 +4,7 @@ class Responses{
     }
     success (res, options) {
         let {status, data, validations} = options;
-        status = status || 'success';
+        status = status || 'SUCCESS';
         data = data || undefined;
         validations = validations || undefined;
         return res.status(200).json({

@@ -41,6 +41,8 @@ const EventSchema = new Schema({
         type: String,
         required: true
     }
+},{
+    versionKey: false // You should be aware of the outcome after set to false
 })
 
 module.exports = mongoose.model('EventModel', EventSchema);

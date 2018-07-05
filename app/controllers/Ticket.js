@@ -19,7 +19,7 @@ class TicketController extends Responses{
 
         if (!errors.isEmpty()){
             let options = {};
-            if (errors.array()[0].param == 'authentication'){
+            if (errors.array()[0].param == 'authorization'){
                 return this.authen_required(res, options)
             }else{
                 let options = {validations:[]};
@@ -49,7 +49,7 @@ class TicketController extends Responses{
                 
                 let decoded={}
                 try{
-                    let token = req.headers.authentication;
+                    let token = req.headers.authorization;
                     decoded = await JWT.verify(token, APP_KEY);
                 }catch(err){
                     return this.authen_required(res, options)
@@ -81,7 +81,7 @@ class TicketController extends Responses{
 
         if (!errors.isEmpty()){
             let options = {};
-            if (errors.array()[0].param == 'authentication'){
+            if (errors.array()[0].param == 'authorization'){
                 return this.authen_required(res, options)
             }else{
                 let options = {validations:[]};
@@ -104,7 +104,7 @@ class TicketController extends Responses{
                 }
                 let decoded={}
                 try{
-                    let token = req.headers.authentication;
+                    let token = req.headers.authorization;
                     decoded = await JWT.verify(token, APP_KEY);
                 }catch(err){
                     return this.authen_required(res, options)

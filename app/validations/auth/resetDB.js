@@ -1,5 +1,5 @@
 const { body, header } = require('express-validator/check');
-const validator = require('validator')
+const validator = require('validator');
 module.exports =[
-    header('Authentication').exists().withMessage('required')
+    //header('authentization').exists().withMessage('required')
 ]

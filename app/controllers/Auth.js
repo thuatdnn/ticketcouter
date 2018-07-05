@@ -25,7 +25,7 @@ class AuthCtrl extends Responses{
         else {
             const user = await this.userRepo.getUserByUsername(req.body.username);
             if (!user){
-                this.userRepo.register(req.body);
+                await this.userRepo.register(req.body);
                 return this.success(res, options);
             }
             else{

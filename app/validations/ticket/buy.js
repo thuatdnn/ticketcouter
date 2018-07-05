@@ -1,22 +1,28 @@
 const { body, header } = require('express-validator/check');
 const validator = require('validator')
 module.exports =[
-    header('Authentication').exists().withMessage('required'),
+    header('Authorization').trim().not().isEmpty().withMessage('required'),
     body('quantity').isInt({gt:0}).withMessage('positive_integer_required'),
     body('card_type').isIn(['visa']).withMessage("unsupported_card_type"),
     body('card_number').custom((value)=>{
+        if (!value){
+            throw new Error('required')
+        }
         let checkExist = validator.isEmpty(value);
         if (checkExist){
             throw new Error('required')
         }else{
             if (!validator.isCreditCard(value)){
-                throw new Error('wrong_card_number_format')
+                throw new Error('wrong_card_number')
             }
             else
                 return true
         }
     }),
     body('card_expiration').custom((value)=>{
+        if (!value){
+            throw new Error('required')
+        }
         let checkExist = validator.isEmpty(value);
         if (checkExist){
             throw new Error('required')
@@ -31,6 +37,9 @@ module.exports =[
         }
     }),
     body('cvc_code').custom((value)=>{
+        if (!value){
+            throw new Error('required')
+        }
         let checkExist = validator.isEmpty(value);
         if (checkExist){
             throw new Error('required')
